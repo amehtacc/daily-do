@@ -1,7 +1,7 @@
 {
   "name": "daily-do-backend",
   "version": "1.0.0",
-  "description": "A fullstack todo application",
+  "description": "DailyDo is a fullstack todo application with both frontend and backend connected, and is built using the MERN stack",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
