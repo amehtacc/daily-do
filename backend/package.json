@@ -1,0 +1,19 @@
+{
+  "name": "daily-do-backend",
+  "version": "1.0.0",
+  "description": "A fullstack todo application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "todo",
+    "dailydo",
+    "tasks"
+  ],
+  "author": "Aryan Mehta",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
