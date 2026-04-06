@@ -3,7 +3,7 @@ import {
   createTodo,
   updateTodo,
   deleteTodo,
-} from "../services/todo.service";
+} from "../services/todo.service.js";
 
 export async function getTodosController(req, res) {
   const userId = req.user.id;
