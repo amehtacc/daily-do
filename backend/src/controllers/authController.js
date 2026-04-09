@@ -74,7 +74,7 @@ export async function signin(req, res) {
     });
 
     res.status(200).send({
-      user: { id: user.id, name:user.name, email: user.email },
+      user: { id: user.id, name: user.name, email: user.email },
       message: "User logged in successfully",
       success: true,
     });
@@ -96,6 +96,17 @@ export async function logout(req, res) {
 
   res.status(200).send({
     message: "Logged out successfully",
+    success: true,
+  });
+}
+
+export function checkMe(req, res) {
+  return res.status(200).send({
+    user: {
+      id: req.user.id,
+      email: req.user.email,
+    },
+    message: "User logged in",
     success: true,
   });
 }
