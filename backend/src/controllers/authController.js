@@ -100,11 +100,21 @@ export async function logout(req, res) {
   });
 }
 
-export function checkMe(req, res) {
+export async function checkMe(req, res) {
+  const user = await getUserByEmail(req.user.email);
+
+  if(!user) {
+    return res.status(404).send({
+      message: "User not found",
+      success: false,
+    })
+  }
+
   return res.status(200).send({
     user: {
-      id: req.user.id,
-      email: req.user.email,
+      id: user.id,
+      name: user.name,
+      email: user.email,
     },
     message: "User logged in",
     success: true,
