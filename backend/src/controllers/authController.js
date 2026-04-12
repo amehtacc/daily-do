@@ -26,6 +26,7 @@ export async function signup(req, res) {
       success: true,
     });
   } catch (error) {
+    console.error("ERROR:", error);
     return res.status(500).send({
       message: "Server Internal Error",
       success: false,
