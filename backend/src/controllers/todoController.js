@@ -17,6 +17,7 @@ export async function getTodosController(req, res) {
       todos,
     });
   } catch (error) {
+    console.error("ERROR fetching todos:", error);
     return res.status(500).send({
       message: error.message,
       success: false,
@@ -38,6 +39,7 @@ export async function createTodoController(req, res) {
       todo,
     });
   } catch (error) {
+    console.error("ERROR creating todo:", error);
     return res.status(500).send({
       message: error.message,
       success: false,
@@ -73,6 +75,7 @@ export async function updateTodoController(req, res) {
       success: true,
     });
   } catch (error) {
+    console.error("ERROR updating todo:", error);
     return res.status(500).send({
       message: error.message,
       success: false,
@@ -106,6 +109,7 @@ export async function deleteTodoController(req, res) {
       success: true,
     });
   } catch (error) {
+    console.error("ERROR deleting todo:", error);
     return res.status(500).send({
       message: error.message,
       success: false,

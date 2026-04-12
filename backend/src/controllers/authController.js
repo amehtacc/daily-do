@@ -26,7 +26,7 @@ export async function signup(req, res) {
       success: true,
     });
   } catch (error) {
-    console.error("ERROR:", error);
+    console.error("ERROR signup:", error);
     return res.status(500).send({
       message: "Server Internal Error",
       success: false,
@@ -80,6 +80,7 @@ export async function signin(req, res) {
       success: true,
     });
   } catch (error) {
+    console.error("ERROR signin:", error);
     return res.status(500).send({
       message: "Server Internal Error",
       success: false,
