@@ -1,9 +1,14 @@
-import React from 'react'
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
-    <div>App</div>
-  )
+    <AuthProvider>
+      <ToastContainer />
+      <Outlet />
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
