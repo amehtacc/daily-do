@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { signup, signin, logout, checkMe } from "../services/authService";
 
@@ -6,6 +6,8 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   async function handleSignup(name, email, password) {
     if (!name.trim() || !email.trim() || !password.trim()) {
@@ -22,10 +24,7 @@ export function AuthProvider({ children }) {
         message: res.data.message,
       };
     } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || "Something went wrong",
-      };
+      throw error.response;
     }
   }
 
@@ -40,6 +39,7 @@ export function AuthProvider({ children }) {
       const res = await signin(data);
 
       setUser(res.data.user);
+      setIsAuthenticated(true);
 
       return {
         user: res.data.user,
@@ -47,10 +47,7 @@ export function AuthProvider({ children }) {
         message: res.data.message,
       };
     } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || "Something went wrong",
-      };
+      throw error.response;
     }
   }
 
@@ -58,42 +55,55 @@ export function AuthProvider({ children }) {
     try {
       const res = await logout();
 
+      return {
+        success: res.data?.success,
+        message: res.data?.message || "Logged out successfully",
+      };
+    } catch (error) {
+      throw error.response;
+    } finally {
       setUser(null);
-
-      return {
-        success: res.data.success,
-        message: res.data.message,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || "Something went wrong",
-      };
+      setIsAuthenticated(false);
     }
   }
 
-  async function handleCheckMe() {
-    try {
-      const res = await checkMe();
+  useEffect(() => {
+    async function handleCheckMe() {
+      try {
+        const res = await checkMe();
 
-      setUser(res.data.user);
-
-      return {
-        user: res.data.user,
-        success: res.data.success,
-        message: res.data.message,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || "Something went wrong",
-      };
+        if (res.data.success) {
+          setUser(res.data.user);
+          setIsAuthenticated(true);
+        } else {
+          setUser(null);
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        setUser(null);
+        setIsAuthenticated(false);
+        console.error(
+          "Auth check failed:",
+          error.response?.data || error.message,
+        );
+      } finally {
+        setIsInitialLoading(false);
+      }
     }
-  }
+
+    handleCheckMe();
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, handleSignup, handleSignin, handleLogout, handleCheckMe }}
+      value={{
+        user,
+        isAuthenticated,
+        isInitialLoading,
+        handleSignup,
+        handleSignin,
+        handleLogout,
+      }}
     >
       {children}
     </AuthContext.Provider>
