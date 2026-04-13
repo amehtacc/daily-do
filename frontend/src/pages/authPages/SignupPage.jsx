@@ -5,11 +5,15 @@ import Button from "../../components/Button";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const { handleSignup } = useAuth();
 
@@ -25,13 +29,19 @@ function SignupPage() {
     }
 
     try {
+      setLoading(true);
+
       const res = await handleSignup(fullName, email, password);
 
       if (res.success) {
-        return toast.success(res.message);
+        toast.success(res.message);
+        navigate("/login");
+        return;
       }
     } catch (error) {
       toast.error(error.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -82,6 +92,7 @@ function SignupPage() {
               size="md"
               className="w-full"
               onClick={handleRegister}
+              disabled={loading}
             >
               Signup
             </Button>
