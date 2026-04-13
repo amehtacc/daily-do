@@ -103,22 +103,30 @@ export async function logout(req, res) {
 }
 
 export async function checkMe(req, res) {
-  const user = await getUserByEmail(req.user.email);
+  try {
+    const user = await getUserByEmail(req.user.email);
 
-  if(!user) {
-    return res.status(404).send({
-      message: "User not found",
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).send({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+      message: "User logged in",
+      success: true,
+    });
+  } catch (error) {
+    console.error("ERROR check me:", error);
+    return res.status(500).send({
+      message: "Server Internal Error",
       success: false,
-    })
+    });
   }
-
-  return res.status(200).send({
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    },
-    message: "User logged in",
-    success: true,
-  });
 }
