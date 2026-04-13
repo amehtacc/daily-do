@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   getTodos,
   createTodo,
@@ -12,27 +12,28 @@ export function TodoProvider({ children }) {
   const [todos, setTodos] = useState([]);
   const [loadingTodos, setLoadingTodos] = useState(false);
 
-  async function handleGetTodos() {
-    try {
-      setLoadingTodos(true);
+  useEffect(() => {
+    async function handleGetTodos() {
+      try {
+        setLoadingTodos(true);
 
-      const res = await getTodos();
+        const res = await getTodos();
 
-      setTodos(res.data.todos);
+        setTodos(res.data.todos);
 
-      return {
-        message: res.data.message,
-        success: res.data.success,
-      };
-    } catch (error) {
-      return {
-        message: error.response?.data?.message || "Error fetching todos",
-        success: false,
-      };
-    } finally {
-      setLoadingTodos(false);
+        return {
+          message: res.data.message,
+          success: res.data.success,
+        };
+      } catch (error) {
+        throw error.response;
+      } finally {
+        setLoadingTodos(false);
+      }
     }
-  }
+
+    handleGetTodos();
+  }, []);
 
   async function handleCreateTodo(title, completed) {
     if (!title.trim()) {
@@ -55,10 +56,7 @@ export function TodoProvider({ children }) {
         todo: res.data.todo,
       };
     } catch (error) {
-      return {
-        message: error.response?.data?.message || "Error creating todo",
-        success: false,
-      };
+      throw error.response;
     }
   }
 
@@ -85,10 +83,7 @@ export function TodoProvider({ children }) {
         success: res.data.success,
       };
     } catch (error) {
-      return {
-        message: error.response?.data?.message || "Error updating todo",
-        success: false,
-      };
+      throw error.response;
     }
   }
 
@@ -103,10 +98,7 @@ export function TodoProvider({ children }) {
         success: res.data.success,
       };
     } catch (error) {
-      return {
-        message: error.response?.data?.message || "Error deleting todo",
-        success: false,
-      };
+      throw error.response;
     }
   }
 
@@ -115,7 +107,6 @@ export function TodoProvider({ children }) {
       value={{
         todos,
         loadingTodos,
-        handleGetTodos,
         handleCreateTodo,
         handleUpdateTodo,
         handleDeleteTodo,
