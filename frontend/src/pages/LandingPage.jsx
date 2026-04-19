@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../components/Button";
-
+import { NavLink } from "react-router-dom";
 function LandingPage() {
   return (
     <main className="w-full">
@@ -17,9 +17,11 @@ function LandingPage() {
           </div>
 
           <div className="w-full">
-            <Button variant="primary" size="lg" className="shadow-lg">
-              Save Your Tomorrow
-            </Button>
+            <NavLink to="/login">
+              <Button variant="primary" size="lg" className="shadow-lg">
+                Save Your Today
+              </Button>
+            </NavLink>
           </div>
         </div>
         <div className="lg:w-[50%] lg:p-5">
