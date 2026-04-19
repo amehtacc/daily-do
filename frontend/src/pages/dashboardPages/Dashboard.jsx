@@ -4,6 +4,8 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useTodo } from "../../contexts/TodoContext";
 import { toast } from "react-toastify";
+import Todo from "../../components/dashboard/Todo.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
 function Dashboard() {
   const [todo, setTodo] = useState("");
@@ -48,21 +50,22 @@ function Dashboard() {
         <div className="w-[60%] flex flex-col gap-3">
           <p className="text-2xl text-gray-700 font-bold px-3">Today's Tasks</p>
 
-          <div className="w-full bg-black/7 p-5 rounded-xl flex flex-col items-start justify-start gap-5">
-            {todos?.length < 1 ? (
+          <div className="w-full bg-black/7 p-5 rounded-xl flex flex-col items-center justify-center gap-5">
+            {loadingTodos ? (<LoadingSpinner />) : (todos?.length < 1 ? (
               <div className="w-full flex items-center justify-center text-gray-400">
                 No tasks available!
               </div>
             ) : (
               todos?.slice(0, 7).map((todo) => (
-                <div
-                  key={todo.id}
-                  className="w-full ring-2 ring-gray-300 px-3 py-2 rounded-md"
-                >
-                  {todo.title}
-                </div>
+                <Todo
+                  key={todo?.id}
+                  id={todo?.id}
+                  title={todo?.title}
+                  isCompleted={todo?.completed}
+                  createdAt={todo?.createdAt}
+                />
               ))
-            )}
+            ))}
           </div>
         </div>
         <div className="w-[40%] flex flex-col gap-3">
