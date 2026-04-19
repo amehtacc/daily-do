@@ -16,7 +16,7 @@ function LandingPage() {
             </p>
           </div>
 
-          <div className="w-full">
+          <div className="w-fit">
             <NavLink to="/login">
               <Button variant="primary" size="lg" className="shadow-lg">
                 Save Your Today
