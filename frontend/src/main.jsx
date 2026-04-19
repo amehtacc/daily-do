@@ -16,6 +16,7 @@ import Signup from "./pages/authPages/SignupPage.jsx";
 import Dashboard from "./pages/dashboardPages/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import RestrictedRoute from "./components/RestrictedRoute.jsx";
+import Tasks from "./pages/dashboardPages/Tasks.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="tasks" element={<Tasks />} />
         </Route>
       </Route>
     </Route>,
