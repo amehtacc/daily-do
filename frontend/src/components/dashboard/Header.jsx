@@ -6,8 +6,8 @@ import { LogOut, Menu } from "lucide-react";
 import Button from "../../components/Button.jsx";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import { toast } from "react-toastify";
+
 function Header() {
-  const [search, setSearch] = useState("");
 
   const { handleLogout } = useAuth();
 
@@ -29,15 +29,7 @@ function Header() {
         <img className="w-36 lg:w-40" src={Logo} alt="logo" />
       </NavLink>
       <div className="hidden lg:flex items-center justify-center gap-10">
-        <Input
-          id="search"
-          name="search"
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="border-gray-300! focus:border-[#017ffd]!"
-        />
+
         <Button
           variant="outline"
           size="md"
